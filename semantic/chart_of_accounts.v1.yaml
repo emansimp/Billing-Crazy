@@ -1,0 +1,50 @@
+# Chart of accounts used by the RelayCloud October 2026 billing policy.
+# Names for 1100-2200 are as exported in netsuite_opening_balances.csv. USD, single book.
+version: 1
+effective: 2026-10-01
+source: START_HERE.pdf p2-3 (ACCOUNTING, CREDITS); netsuite_opening_balances.csv (account names)
+accounts:
+  - number: "1100"
+    name: Accounts receivable
+    type: asset
+    placeholder: false
+    use: Dr on invoice issue; Cr on credit note.
+  - number: "1150"
+    name: Unbilled usage receivable
+    type: asset
+    placeholder: false
+    use: Dr/Cr 4010 accrual in service month; released Dr 1100 / Cr 1150 by next-month usage invoice.
+  - number: "1160"
+    name: Platform contract asset
+    type: asset
+    placeholder: false
+    note: >
+      The Phase 0 brief labels 1160 "Customer credit balance reclass". The source export and START_HERE
+      call it "platform contract asset" (reclass of a customer's net debit in 2200). Source naming is used.
+    use: Dr 1160 / Cr 2200 to reclassify any customer platform net debit in 2200; prior reclass reversed before recalculating.
+  - number: "2200"
+    name: Deferred platform revenue
+    type: liability
+    placeholder: false
+    note: The Phase 0 brief labels this "Deferred revenue"; source export name is "Deferred platform revenue".
+    use: Cr on platform invoice; Dr on recognition.
+  - number: "4000"
+    name: Platform revenue
+    type: revenue
+    placeholder: false
+    use: Cr on recognition (days / 365, each month rounded once to cents).
+  - number: "4010"
+    name: Usage revenue
+    type: revenue
+    placeholder: false
+    use: Cr on usage accrual in the service month.
+  - number: "4090"
+    name: Contra revenue
+    type: contra_revenue
+    placeholder: true       # PLACEHOLDER - not used by the supplied policy; no postings may reference it
+    use: Reserved. Approved concessions are handled through the usage accrual and credit notes, not this account.
+  - number: "6900"
+    name: Bad debt / write-off
+    type: expense
+    placeholder: true       # PLACEHOLDER - collections and write-offs are out of scope
+    use: Reserved. Out of scope (collections).

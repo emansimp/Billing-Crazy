@@ -1,0 +1,13 @@
+# secrets - never commit
+*.rtf
+.env
+.env.*
+!.env.example
+# OS / tooling
+.DS_Store
+node_modules/
+.next/
+.vercel/
+# contest inputs are supplied by the organizer and loaded via scripts/load_raw.py <folder>
+FE Cup II - Billing Battle - Contestant Files/
+Billing Battle Reconciliation App Mockups.html
