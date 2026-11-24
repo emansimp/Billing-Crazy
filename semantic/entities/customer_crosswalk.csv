@@ -1,0 +1,31 @@
+salesforce_account_id,account_name,stripe_customer_id,netsuite_customer_internal_id,contract_ids,contract_document_ids,order_forms,amendments,product_account_ids,product_account_count,missing_stripe_id,missing_netsuite_id,missing_product_account,missing_contract,stripe_id_not_in_invoices,netsuite_id_not_in_opening_balances,any_identifier_missing
+001cd754c8a00dfAAA,"Alder Fieldworks, Inc.",cus_12d0dbb00ef364,186097,CT-186097,OF-2026-118,1,0,pa_29bef2ab673ae7,1,False,False,False,False,False,False,False
+001a2e2bf7c89bdAAA,"Aspen Vale, Inc.",cus_98616f9101909d,314334,CT-314334,OF-2026-397,1,0,pa_9983d91e91e873,1,False,False,False,False,False,False,False
+0010f1c55725cd6AAA,"Beacon Marsh, Inc.",cus_6cd97b5f63f72f,810234,CT-810234,OF-2026-408,1,0,pa_fbb2b8766f4fac,1,False,False,False,False,False,False,False
+00121902038e29fAAA,"Brookstone Data, Inc.",cus_1c17e255781bad,866587,CT-866587,OF-2026-122,1,0,pa_3ecc8f2ea61075,1,False,False,False,False,False,False,False
+0011e97a0fc9929AAA,"Cedar Harbor Labs, Inc.",cus_c34b5d920c411f,639373,CT-639373,AM-OF-2026-157|OF-2026-157,1,1,pa_e6a75ee04d9e8b,1,False,False,False,False,False,False,False
+00199462379bc17AAA,"Copper Finch Systems, Inc.",cus_3dbc6b464d0e31,477694,CT-477694,OF-2026-133,1,0,pa_fdb9e8b1a20001,1,False,False,False,False,False,False,False
+001c9d190b0f125AAA,"Crescent Shore, Inc.",cus_bec865da1ebb19,260381,CT-260381,OF-2026-419,1,0,pa_c38895c66dfafd,1,False,False,False,False,False,False,False
+0019b4299633298AAA,"Driftwood Research, Inc.",cus_98c3c75fd26149,731059,CT-731059,OF-2026-144,1,0,pa_f3203cb3d10b96,1,False,False,False,False,False,False,False
+001c74a3f587756AAA,"Evergreen Dispatch, Inc.",cus_fb548d00174b56,436791,CT-436791,OF-2026-155,1,0,pa_0a4e7d52d6517e,1,False,False,False,False,False,False,False
+00101f851e7fbe9AAA,"Falcon Ridge Software, Inc.",cus_a58cd4932b01d7,286595,CT-286595,OF-2026-166,1,0,pa_28b1032eb4f855,1,False,False,False,False,False,False,False
+001528ebc1bb6a2AAA,"Granite Orchard, Inc.",cus_ed6cb4728e8022,963044,CT-963044,OF-2026-177,1,0,pa_e42d35b1515df1,1,False,False,False,False,False,False,False
+001a0b34c4386c3AAA,"Highwater Studio, Inc.",cus_633aaa8be0687d,142182,CT-142182,OF-2026-188,1,0,pa_8106ec036dd8a2,1,False,False,False,False,False,False,False
+00137c096146731AAA,"Indigo Trail Networks, Inc.",cus_35b0367a38f10f,620310,CT-620310,OF-2026-199,1,0,pa_006e622d3d5809,1,False,False,False,False,False,False,False
+001e9a35c92d800AAA,"Juniper Bay Analytics, Inc.",cus_4a5ff59dfed00d,879513,CT-879513,OF-2026-210,1,0,pa_b7aeebafce6fdb,1,False,False,False,False,False,False,False
+001ff8487ef5b3dAAA,"Juniper Signal Works, Inc.",cus_e5ab4c55ca775a,437384,CT-437384,OF-2026-331,1,0,pa_6f486d59fde2c4,1,False,False,False,False,False,False,False
+0013ac3411943d1AAA,"Kestrel Bridge, Inc.",cus_e55898135de61c,654552,CT-654552,OF-2026-221,1,0,pa_b7b4fd74262254,1,False,False,False,False,False,False,False
+00141dc91389400AAA,"Larch Point Services, Inc.",cus_022f885a5cb476,232251,CT-232251,OF-2026-232,1,0,pa_098af589827983,1,False,False,False,False,False,False,False
+00185c69a4a7d58AAA,"Maple Lantern, Inc.",cus_817655124b9b98,507826,CT-507826,OF-2026-243,1,0,pa_849bd672a67445,1,False,False,False,False,False,False,False
+001cf5f649adb5cAAA,"Meridian Process Systems, Inc.",cus_75c30f56fb3df9,335780,CT-335780,AM-OF-2026-164|OF-2026-164,1,1,pa_a1dad6e6a9a5cd,1,False,False,False,False,False,False,False
+0011cbc851d9008AAA,"Northbank Design, Inc.",cus_1be410211b982c,553102,CT-553102,OF-2026-254,1,0,pa_f262997a456a04,1,False,False,False,False,False,False,False
+00168d5f330df06AAA,"Oak Harbor Digital, Inc.",cus_8d5fc851f9c0e4,300468,CT-300468,OF-2026-265,1,0,pa_4785cd225b89ba,1,False,False,False,False,False,False,False
+001674c38a854e9AAA,"Pine Summit Logistics, Inc.",cus_ba70f7d283542e,561562,CT-561562,OF-2026-276,1,0,pa_5ad3eb8ecfe221,1,False,False,False,False,False,False,False
+00171cbc47d54f3AAA,"Quartz Meadow, Inc.",cus_9c5156ea37f983,730965,CT-730965,OF-2026-287,1,0,pa_137837beb1550a,1,False,False,False,False,False,False,False
+001a54070f5a2e4AAA,"Riverbend Operations, Inc.",cus_84c025f9615cf1,856042,CT-856042,OF-2026-298,1,0,pa_1851d249dd06cb,1,False,False,False,False,False,False,False
+00158dba86a41d6AAA,"Silver Current, Inc.",cus_c71c17defe8cd1,676664,CT-676664,OF-2026-309,1,0,pa_47b88c661eb874|pa_f870ed4e1b3515,2,False,False,False,False,False,False,False
+001cebd325093cbAAA,"Timberline Insights, Inc.",cus_51b926427b2220,941670,CT-941670,OF-2026-320,1,0,pa_5c642fdd78497b|pa_dd3b1cb039fe81,2,False,False,False,False,False,False,False
+0018dcff54e943cAAA,"Westhaven Metrics, Inc.",cus_3fa65401464793,240793,CT-240793,OF-2026-342,1,0,pa_0f28aff4fcff87,1,False,False,False,False,False,False,False
+00174337ea6baeeAAA,"Willow Passage, Inc.",cus_e33bdc2ba07de2,839653,CT-839653,OF-2026-430,1,0,,0,False,False,True,False,False,False,True
+001e11d0aa846d7AAA,"Yarrow Ridge, Inc.",cus_46ee9e5b5a2782,188999,CT-188999,OF-2026-375,1,0,pa_64b090ce98d42f,1,False,False,False,False,False,False,False
+001e7f010081dd7AAA,"Zephyr Grove, Inc.",cus_499cb732fd7b9c,148565,CT-148565,OF-2026-386,1,0,pa_2c0b53d1d7dd6b,1,False,False,False,False,False,False,False
