@@ -28,7 +28,10 @@ Each version is checked against `contract_register.csv` and arithmetic (`ref.v_c
 Individual fees/credits carry their own status and verbatim quote. Ambiguous wording (e.g. "may be invoiced separately") -> `needs_info`.
 
 ## Approval
-`approval_status` starts at `pending_review`. Phase 3 may use only rows the Controller/owner has set to `approved`.
+`approval_status` starts at `pending_review`. Phase 3 may use only rows the owner has set to `approved`.
+Recorded 2026-11-23: the owner approved the 32 versions and decided that Meridian's $526.03 October catch-up is **treated as required**
+(`ref.contract_term_fees.owner_decision = treat_as_required`; the original `needs_info_reason` is kept for audit).
+**Open item (journal-entry phase):** the owner will supply a treatment option for the catch-up entry; no entry is proposed until then.
 
 ## Sanity checks (recomputed, not copied)
 `ref.v_contract_sanity_checks`: Meridian $48,000 -> $60,000 effective Oct 16; catch-up $12,000 x 16 / 365 = $526.03; incremental $12,000 x 320 / 365 = $10,520.55;
