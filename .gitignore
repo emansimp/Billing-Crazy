@@ -11,3 +11,6 @@ node_modules/
 # contest inputs are supplied by the organizer and loaded via scripts/load_raw.py <folder>
 FE Cup II - Billing Battle - Contestant Files/
 Billing Battle Reconciliation App Mockups.html
+
+# local review artifacts (screenshots next to mockups)
+reviews/

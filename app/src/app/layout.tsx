@@ -1,8 +1,14 @@
-export const metadata = { title: "RelayCloud Billing Reconciliation", description: "October 2026 billing reconciliation - Phase 0 foundation" };
+import "./globals.css";
+import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
+export const metadata = { title: "Billing Review · RelayCloud October 2026", description: "October 2026 billing reconciliation" };
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body style={{ fontFamily: "system-ui, sans-serif", margin: 0, background: "#fafafa", color: "#111" }}>{children}</body>
-    </html>
+    <html lang="en"><body>
+      <div className="shell">
+        <Nav />
+        <main className="main">{children}<Footer /></main>
+      </div>
+    </body></html>
   );
 }
