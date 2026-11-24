@@ -7,7 +7,8 @@
 --   after the 526.03 true-up the net debit is 21.92 + 526.03 = 547.95 ; existing 1160 = 21.92 ; incremental reclass = 547.95 - 21.92 = 526.03
 -- NET REVENUE EFFECT: 4010 = -3,096.80 + 3,135.22 + 3,074.28 = +3,112.70 ; 4000 = +526.03 ; total +3,638.73 ; contra 4090 0.00 ; write-off 6900 0.00
 -- BILLING DOCUMENTS (November): Cedar credit note -3,096.80 ; Juniper +3,135.22 ; Yarrow +3,074.28 ; Beacon +100.00 (no October entry) ; Meridian +526.03 ; AR effect = 3,738.73
-with jl as materialized (select * from calc.v_journal_lines),
+with opt as materialized (select * from calc.v_treatment_options),
+  jl as materialized (select * from calc.v_journal_lines),
   al as materialized (select * from calc.v_adjustment_lines),
   rev as materialized (select * from calc.v_revenue_effect),
   bc as materialized (select * from calc.v_billing_corrections),
@@ -34,7 +35,7 @@ select test_name, expected, actual, (expected = actual) as pass from (
   union all select 'TIE-OUT usage: customers with a difference (Cedar, Juniper, Yarrow)', '3', (select count(*) from tu where gl_minus_expected <> 0)::text
   union all select 'ROLLFORWARD: customer-account rows (30 customers x 4 accounts)', '120', (select count(*) from rf)::text
   union all select 'ROLLFORWARD: rows not tying to sub-ledgers', '0', (select count(*) from rf where tie_difference <> 0)::text
-  union all select 'ENTRIES: entries / lines', '4/10', (select count(distinct external_id) || '/' || count(*) from jl)
+  union all select 'ENTRIES: entries / lines (Zephyr line posts nothing by default)', '4/10', (select count(distinct external_id) || '/' || count(*) from jl)
   union all select 'ENTRIES: JE01 Cedar Dr 4010', '3096.80', (select debit::text from jl where external_id = 'BR-OCT26-JE01' and account_number = '4010')
   union all select 'ENTRIES: JE01 Cedar Cr 1150', '3096.80', (select credit::text from jl where external_id = 'BR-OCT26-JE01' and account_number = '1150')
   union all select 'ENTRIES: JE02 Juniper Dr 1150', '3135.22', (select debit::text from jl where external_id = 'BR-OCT26-JE02' and account_number = '1150')
@@ -58,7 +59,15 @@ select test_name, expected, actual, (expected = actual) as pass from (
   union all select 'SEPARATE LINES: under-billed accruals (usage_increase)', '2', (select count(*) from al where adjustment_kind = 'usage_increase')::text
   union all select 'SEPARATE LINES: platform true-up', '1', (select count(*) from al where adjustment_kind = 'platform_increase')::text
   union all select 'NO ENTRY: Beacon (billing correction only) has no adjustment line', '0', (select count(*) from al where customer like 'Beacon%')::text
-  union all select 'NO ENTRY: Zephyr (accrual already net) has no adjustment line', '0', (select count(*) from al where customer like 'Zephyr%')::text
+  union all select 'ZEPHYR selector: line exists with default none (accrual already net) and posts nothing', '1/none/false', (select count(*) || '/' || max(selected_treatment) || '/' || bool_or(posts_entry) from al where customer like 'Zephyr%')
+  union all select 'ZEPHYR selector: reference amount is the approved concession', '100.00', (select amount::text from al where customer like 'Zephyr%')
+  union all select 'ZEPHYR selector: no journal lines by default', '0', (select count(*) from jl where name = (select netsuite_customer_internal_id from al where customer like 'Zephyr%'))::text
+  union all select 'ZEPHYR selector: options none/accrual/contra/writeoff', 'accrual,contra,none,writeoff', (select string_agg(option_treatment, ',' order by option_treatment) from opt where customer like 'Zephyr%')
+  union all select 'ZEPHYR selector: every non-default option requires a reason', '3', (select count(*) from opt where customer like 'Zephyr%' and requires_reason)::text
+  union all select 'ZEPHYR selector: every non-default option carries a double-count warning', '3', (select count(*) from opt where customer like 'Zephyr%' and warning like 'DOUBLE-COUNT%')::text
+  union all select 'ZEPHYR selector: contra pair flagged placeholder 4090/1150', '4090/1150/true', (select debit_account || '/' || credit_account || '/' || uses_placeholder_account from opt where customer like 'Zephyr%' and option_treatment = 'contra')
+  union all select 'ZEPHYR selector: accrual and write-off pairs', '4010/1150;6900/1150', (select string_agg(debit_account || '/' || credit_account, ';' order by option_treatment) from opt where customer like 'Zephyr%' and option_treatment in ('accrual', 'writeoff'))
+  union all select 'ZEPHYR selector: accrued 852.60 equals expected net (so the default is no entry)', '852.60/852.60', (select gl_cr_4010 || '/' || expected_usage_net from tu where account_name like 'Zephyr%')
   union all select 'NO ENTRY: Zephyr reviewed, reason recorded', '1', (select count(*) from ac where customer like 'Zephyr%' and reason like '%reduce revenue twice%')::text
   union all select 'NO ENTRY: Willow unapproved concession authorizes nothing', '1', (select count(*) from ac where customer like 'Willow%' and check_code = 'concession' and reason like '%not approved%')::text
   union all select 'NO ENTRY: no line posts to contra 4090 or write-off 6900 by default', '0', (select count(*) from jl where account_number in ('4090', '6900'))::text
