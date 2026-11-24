@@ -1,0 +1,31 @@
+salesforce_account_id,account_name,checks_recorded,checks_passed,errors,needs_info,valid_explanations,overall_class,finding_checks
+001cd754c8a00dfAAA,"Alder Fieldworks, Inc.",9,8,0,0,1,valid_explanation,"[""void_credit_note""]"
+001a2e2bf7c89bdAAA,"Aspen Vale, Inc.",9,8,0,0,1,valid_explanation,"[""missing_usage_invoice""]"
+0010f1c55725cd6AAA,"Beacon Marsh, Inc.",9,8,1,0,0,error,"[""usage_variance""]"
+00121902038e29fAAA,"Brookstone Data, Inc.",9,9,0,0,0,clean,
+0011e97a0fc9929AAA,"Cedar Harbor Labs, Inc.",9,7,2,0,0,error,"[""amendment_not_loaded"",""usage_variance""]"
+00199462379bc17AAA,"Copper Finch Systems, Inc.",9,9,0,0,0,clean,
+001c9d190b0f125AAA,"Crescent Shore, Inc.",9,8,0,0,1,valid_explanation,"[""15th_anchor_timing""]"
+0019b4299633298AAA,"Driftwood Research, Inc.",9,9,0,0,0,clean,
+001c74a3f587756AAA,"Evergreen Dispatch, Inc.",9,9,0,0,0,clean,
+00101f851e7fbe9AAA,"Falcon Ridge Software, Inc.",9,9,0,0,0,clean,
+001528ebc1bb6a2AAA,"Granite Orchard, Inc.",9,9,0,0,0,clean,
+001a0b34c4386c3AAA,"Highwater Studio, Inc.",9,9,0,0,0,clean,
+00137c096146731AAA,"Indigo Trail Networks, Inc.",9,9,0,0,0,clean,
+001e9a35c92d800AAA,"Juniper Bay Analytics, Inc.",9,9,0,0,0,clean,
+001ff8487ef5b3dAAA,"Juniper Signal Works, Inc.",9,8,1,0,0,error,"[""usage_variance""]"
+0013ac3411943d1AAA,"Kestrel Bridge, Inc.",9,9,0,0,0,clean,
+00141dc91389400AAA,"Larch Point Services, Inc.",9,9,0,0,0,clean,
+00185c69a4a7d58AAA,"Maple Lantern, Inc.",9,9,0,0,0,clean,
+001cf5f649adb5cAAA,"Meridian Process Systems, Inc.",9,6,3,0,0,error,"[""amendment_not_loaded"",""later_service_platform"",""platform_variance""]"
+0011cbc851d9008AAA,"Northbank Design, Inc.",9,9,0,0,0,clean,
+00168d5f330df06AAA,"Oak Harbor Digital, Inc.",9,9,0,0,0,clean,
+001674c38a854e9AAA,"Pine Summit Logistics, Inc.",9,9,0,0,0,clean,
+00171cbc47d54f3AAA,"Quartz Meadow, Inc.",9,9,0,0,0,clean,
+001a54070f5a2e4AAA,"Riverbend Operations, Inc.",9,9,0,0,0,clean,
+00158dba86a41d6AAA,"Silver Current, Inc.",9,9,0,0,0,clean,
+001cebd325093cbAAA,"Timberline Insights, Inc.",9,9,0,0,0,clean,
+0018dcff54e943cAAA,"Westhaven Metrics, Inc.",9,8,0,0,1,valid_explanation,"[""duplicate_usage_record""]"
+00174337ea6baeeAAA,"Willow Passage, Inc.",9,6,0,2,1,needs_info,"[""15th_anchor_timing"",""concession"",""missing_usage_invoice""]"
+001e11d0aa846d7AAA,"Yarrow Ridge, Inc.",9,7,2,0,0,error,"[""missing_usage_invoice"",""usage_variance""]"
+001e7f010081dd7AAA,"Zephyr Grove, Inc.",9,8,0,0,1,valid_explanation,"[""concession""]"

@@ -61,6 +61,11 @@ for fn, (tbl, cols) in FILES.items():
             select '{batch}', '{fn}', {len(data)}, (select count(*) from raw.{tbl} where load_batch_id = '{batch}'),
                    m.expected_rows, 'PASS' from raw.source_manifest m where m.source_file = '{fn}'""")
 
+# findings read a materialized check matrix; refresh it after any reload (no-op error if migrations 0012/0013 are not applied yet)
+try:
+    run("select calc.refresh_findings()")
+except SystemExit:
+    print("note: calc.refresh_findings() not available yet (apply migrations first)")
 result = run("select source_file, expected_rows, csv_rows, db_rows, status, basis from public.load_manifest_check")
 w = max(len(r["source_file"]) for r in result)
 print(f"{'check':<{w}}  {'expected':>8} {'csv':>6} {'db':>6}  status")

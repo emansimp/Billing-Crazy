@@ -5,7 +5,7 @@ REF, TOKEN = os.environ["SUPABASE_PROJECT_REF"], os.environ["SUPABASE_ACCESS_TOK
 def q(sql):
     r = urllib.request.Request(f"https://api.supabase.com/v1/projects/{REF}/database/query", data=json.dumps({"query": sql}).encode(),
         method="POST", headers={"Authorization": f"Bearer {TOKEN}", "Content-Type": "application/json", "User-Agent": "billing-crazy"})
-    return json.loads(urllib.request.urlopen(r, timeout=60).read())
+    return json.loads(urllib.request.urlopen(r, timeout=170).read())
 folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "semantic", "golden")
 failed = total = 0
 for path in sorted(glob.glob(os.path.join(folder, "*.sql"))):
