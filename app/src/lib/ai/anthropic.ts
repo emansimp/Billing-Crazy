@@ -21,7 +21,7 @@ export class AnthropicProvider implements AiProvider {
       method: "POST",
       headers: { "x-api-key": this.opts.apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
       body: JSON.stringify({
-        model: this.model, max_tokens: 900, temperature: 0, system: p.system,
+        model: this.model, max_tokens: 900, system: p.system,
         messages: [{ role: "user", content: `Context (SQL-produced; the only source of facts, figures and IDs):\n${JSON.stringify(context, null, 2)}\n\n${req.question ? `Question: ${req.question}\n\n` : ""}Write the response now. Cite IDs in [brackets]; use only amounts that appear in the context.` }],
       }),
     });
