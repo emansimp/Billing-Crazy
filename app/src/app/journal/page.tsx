@@ -36,7 +36,7 @@ export default async function Journal() {
           <div className="muted" style={{ marginTop: 4 }}>Recompute every figure in this app from the loaded data. Findings, entries and invoice views all refresh from the same run.</div>
           <RunPanel lastRun={lastRunText} />
           <div className="muted" style={{ marginTop: 10, fontSize: 12 }}>
-            {last?.input_counts ? `${Object.keys(last.input_counts).length} source files loaded. ` : ""}{rowsOk ? "Row counts match the stated source counts." : "Row counts do not all match the stated source counts: see Controls."} Engine version and semantic commit are recorded with each run.
+            {last?.input_counts ? `${Object.keys(last.input_counts).filter((k) => !k.includes("(")).length} source files loaded. ` : ""}{rowsOk ? "Row counts match the stated source counts." : "Row counts do not all match the stated source counts: see Controls."} Engine version and semantic commit are recorded with each run.
           </div>
           <table className="t" style={{ marginTop: 12 }}>
             <thead><tr><th>Run</th><th>Period</th><th>When</th><th>Engine commit</th><th>Result</th></tr></thead>

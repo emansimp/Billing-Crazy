@@ -45,5 +45,6 @@ select test_name, expected, actual, (expected = actual) as pass from (
         (select count(*) from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public'
             and p.proname in ('ui_set_treatment', 'ui_clear_treatment', 'ui_approve_entries', 'ui_revoke_approvals', 'ui_record_run', 'ui_refresh_snapshots', 'ui_reset_demo', 'ui_record_finding_decision')
             and (has_function_privilege('anon', p.oid, 'execute') or has_function_privilege('authenticated', p.oid, 'execute')))::text
+  union all select 'adjustment base snapshot is fresh (rows differing from the live calculation)', '0', (select count(*) from ((select * from calc.mv_adjustment_base except select * from calc.v_adjustment_base) union all (select * from calc.v_adjustment_base except select * from calc.mv_adjustment_base)) d)::text
   union all select 'no leftover test state (overrides, approvals)', '0/0', (select (select count(*) from ref.adjustment_treatments) || '/' || (select count(*) from ref.journal_approvals))
 ) t;

@@ -39,11 +39,11 @@ export default function TreatmentRow({ line, options }: { line: any; options: Op
         <td style={{ minWidth: 220 }}><div style={{ fontWeight: 600 }}>{line.adjustment_label}</div><div className="muted" style={{ fontSize: 12 }}>{line.calc_basis}</div></td>
         <td style={{ minWidth: 230 }}>
           {fixed ? <span className="chip c-gray">Fixed by policy</span> : (
-            <select aria-label={`Treatment for ${line.external_id}`} value={sel} disabled={busy} onChange={(e) => onChange(e.target.value)} style={{ padding: "7px 8px", border: "1px solid #C9CFD8", borderRadius: 6, fontFamily: "inherit", fontSize: 13, maxWidth: 260 }}>
-              {options.map((o) => <option key={o.option_treatment} value={o.option_treatment}>{NAMES[o.option_treatment] ?? o.option_treatment}{o.is_policy_default ? " · default" : ""}</option>)}
+            <select aria-label={`Treatment for ${line.external_id}`} value={sel} disabled={busy} onChange={(e) => onChange(e.target.value)} style={{ padding: "7px 8px", border: "1px solid #C9CFD8", borderRadius: 6, fontFamily: "inherit", fontSize: 13, width: "100%", maxWidth: 330 }}>
+              {options.map((o) => <option key={o.option_treatment} value={o.option_treatment}>{NAMES[o.option_treatment] ?? o.option_treatment}</option>)}
             </select>
           )}
-          {!fixed && chosen && <div className="muted" style={{ fontSize: 11, marginTop: 4 }}>{chosen.note}</div>}
+          {!fixed && chosen && <div className="muted" style={{ fontSize: 11, marginTop: 4 }}>{chosen.is_policy_default ? "Policy default. " : ""}{chosen.note}</div>}
         </td>
         <td>{(fixed ? line.debit_label : chosen?.debit_label) ?? <span className="muted">No entry</span>}</td>
         <td>{(fixed ? line.credit_label : chosen?.credit_label) ?? <span className="muted">No entry</span>}</td>
