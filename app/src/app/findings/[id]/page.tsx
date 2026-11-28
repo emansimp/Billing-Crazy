@@ -1,3 +1,4 @@
+import AiPanel from "@/components/AiPanel";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { view, one } from "@/lib/db";
@@ -112,16 +113,7 @@ export default async function FindingDetail({ params }: { params: Promise<{ id: 
 
         <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-start" }}>
           <section className="card" style={{ flex: "1 1 520px", padding: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-              <h2 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Plain-language explanation</h2>
-              <Chip tone="gray">Templated, AI provider not configured</Chip>
-            </div>
-            <div style={{ marginTop: 10, padding: 14, borderRadius: 8, background: "#F8F9FB", border: "1px dashed #C9CFD8" }}>{f.explanation}</div>
-            <div style={{ marginTop: 12, display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <button className="btn" disabled title="AI not configured">Rewrite with AI</button>
-              <button className="btn" disabled title="AI not configured">Draft request to Billing</button>
-              <button className="btn" disabled title="AI not configured">Draft note to Controller</button>
-            </div>
+            <AiPanel displayId={f.display_id} baseText={f.explanation} />
             <div className="muted" style={{ marginTop: 10, fontSize: 12 }}>Text is built from the finding data and the policy file in /semantic. Numbers always come from the calculation, never from the AI. Semantic layer version: commit <code>{process.env.VERCEL_GIT_COMMIT_SHA ? process.env.VERCEL_GIT_COMMIT_SHA.slice(0, 7) : "local build"}</code>.</div>
           </section>
 
