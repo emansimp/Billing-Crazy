@@ -11,7 +11,8 @@ export async function POST(req: Request, ctx: { params: Promise<{ id: string }> 
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!key) return NextResponse.json({ error: "Saving decisions needs the server key (SUPABASE_SERVICE_ROLE_KEY), which is not configured on this deployment." }, { status: 503 });
   const res = await fetch(`${URL}/rest/v1/rpc/ui_record_finding_decision`, {
-    method: "POST", headers: { apikey: key, Authorization: `Bearer ${key}`, "Content-Type": "application/json" }, body: JSON.stringify({ p_display_id: id, p_decision: decision }),
+    // Legacy service_role keys are JWTs (sent as apikey + Bearer); new sb_secret_ keys are not JWTs and go in apikey only.
+    method: "POST", headers: { apikey: key, ...(key.startsWith("sb_secret_") ? {} : { Authorization: `Bearer ${key}` }), "Content-Type": "application/json" }, body: JSON.stringify({ p_display_id: id, p_decision: decision }),
   });
   if (!res.ok) return NextResponse.json({ error: `Could not save (${res.status})` }, { status: 502 });
   return NextResponse.json({ ok: true });
