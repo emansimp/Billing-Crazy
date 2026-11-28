@@ -19,7 +19,7 @@ export default async function Customers({ searchParams }: { searchParams: Promis
   const [rows, sum, ws] = await Promise.all([view("ui_customers", "select=*&order=customer"), one("ui_customers_summary"), one("ui_unassigned_workspace")]);
   const alloc = basis !== "inv";
   const pick = (r: any, k: string) => r[`plat_${k}_${alloc ? "alloc" : "inv"}`];
-  let list = rows.filter((r: any) => !q || r.customer.toLowerCase().includes(q.toLowerCase()));
+  let list = rows.filter((r: any) => !q || r.customer.toLowerCase().includes(q.toLowerCase()) || String(r.ns_id).includes(q));
   if (f === "variance") list = list.filter((r: any) => r.has_variance); else if (f === "info") list = list.filter((r: any) => r.has_needs_info);
   const pages = Math.max(1, Math.ceil(list.length / PAGE)); const p = Math.min(Math.max(1, Number(page) || 1), pages);
   const shown = list.slice((p - 1) * PAGE, p * PAGE);
@@ -33,7 +33,7 @@ export default async function Customers({ searchParams }: { searchParams: Promis
       <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", justifyContent: "space-between" }}>
         <form method="get" action="/reconciliation" style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <input type="hidden" name="f" value={f} /><input type="hidden" name="basis" value={basis} />
-          <input name="q" defaultValue={q} placeholder="Search customers" aria-label="Search customers" style={{ padding: "8px 10px", border: "1px solid #C9CFD8", borderRadius: 6, fontFamily: "inherit", fontSize: 13, minWidth: 200 }} />
+          <input name="q" defaultValue={q} placeholder="Customer or NetSuite ID" aria-label="Search customers" style={{ padding: "8px 10px", border: "1px solid #C9CFD8", borderRadius: 6, fontFamily: "inherit", fontSize: 13, minWidth: 200 }} />
           <button className="btn" type="submit">Search</button>
           {[["all", "All"], ["variance", "Variance only"], ["info", "Needs info"]].map(([k, l]) => <Link key={k} href={href({ f: k })} className={`btn${f === k ? " btn-p" : ""}`}>{l}</Link>)}
         </form>
@@ -52,7 +52,7 @@ export default async function Customers({ searchParams }: { searchParams: Promis
           </thead>
           <tbody>
             {shown.map((r: any) => (
-              <tr key={r.salesforce_account_id}>
+              <tr key={r.salesforce_account_id} style={r.has_variance ? { background: "#FFF8F5" } : undefined}>
                 <td><Link href={`/reconciliation/customer?id=${r.salesforce_account_id}`}>{r.customer}</Link></td><td>{r.ns_id}</td>
                 <td className="num">{money(pick(r, "exp"))}<Note>{r.plat_note}</Note></td><td className="num">{money(pick(r, "bill"))}</td><td className="num"><Var under={pick(r, "under")} over={pick(r, "over")} /></td>
                 <td className="num">{r.usage_unattributed ? <span className="muted">To be verified</span> : money(r.usage_exp)}</td>
@@ -61,7 +61,7 @@ export default async function Customers({ searchParams }: { searchParams: Promis
                 <td>{r.flags && r.flags.split(", ").map((x: string) => <div key={x}><span className={`chip ${flagTone(x)}`}>{x}</span></div>)}</td>
               </tr>
             ))}
-            {p === pages && ws && f === "all" && !q && (
+            {ws && f === "all" && !q && (
               <tr className="hatch">
                 <td><b>Unassigned workspace</b><div className="muted" style={{ fontSize: 11 }}>{ws.product_account_id}, no verified owner</div></td><td className="muted">None</td>
                 <td className="num muted">Not applicable</td><td className="num muted">Not applicable</td><td className="num muted">Not applicable</td>

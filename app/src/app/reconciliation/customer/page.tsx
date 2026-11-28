@@ -48,7 +48,7 @@ export default async function CustomerDetail({ searchParams }: { searchParams: P
           ["Usage billed vs expected", money(k.usage_billed), `Expected ${money(k.usage_expected)} · ${usageVar}`],
           ["Platform revenue, October", money(k.plat_revenue_posted), `Posted equals ${money(k.plat_fee_for_posted).replace(/\.00$/, "")} × ${k.plat_days} ÷ 365. Billing is ${money(k.plat_invoice_amount)}.`],
           ["Usage accrual, October", money(k.usage_accrual_posted), `Expected ${money(k.usage_accrual_expected)} · accrual ${Number(k.usage_accrual_diff) === 0 ? "matches" : `${money(String(k.usage_accrual_diff).replace("-", ""))} ${Number(k.usage_accrual_diff) > 0 ? "high" : "low"}`}`]]
-          .map(([t, v, s]) => <div key={t} className="card" style={{ padding: 16 }}><div className="lbl">{t}</div><div style={{ fontSize: 24, fontWeight: 700, margin: "4px 0" }}>{v}</div><div className="muted" style={{ fontSize: 12 }}>{s}</div></div>)}
+          .map(([t, v, s]) => <div key={t} className="card" style={{ padding: 16, ...(/over-billed|under-billed|high|low/.test(s) ? { borderColor: "#F0B8A4" } : {}) }}><div className="lbl">{t}</div><div style={{ fontSize: 24, fontWeight: 700, margin: "4px 0" }}>{v}</div><div className="muted" style={{ fontSize: 12 }}>{s}</div></div>)}
       </div>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-start" }}>
@@ -56,7 +56,7 @@ export default async function CustomerDetail({ searchParams }: { searchParams: P
           <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>Contract versions</h3>
           {versions.map((v: any) => (
             <div key={v.doc} style={{ padding: "10px 0", borderTop: "1px solid #EEF0F3" }}>
-              <div style={{ fontWeight: 600 }}>{v.doc} · {v.type_label} {v.billing_load_missing && <Chip tone="info">Billing load not recorded</Chip>}</div>
+              <div style={{ fontWeight: 600 }}>{v.doc} · {v.type_label} {v.billing_load_missing && <Chip tone="err">Billing load not recorded</Chip>}</div>
               <div className="muted">{v.summary}</div>
             </div>
           ))}
@@ -71,7 +71,7 @@ export default async function CustomerDetail({ searchParams }: { searchParams: P
             <tr><td>Duplicate or replaced records</td><td className="num">{uv?.duplicate_records}</td></tr>
             <tr><td>Total workflow runs</td><td className="num">{uv?.no_verified_usage ? "Unknown" : int(uv?.total_runs)}</td></tr>
             <tr><td>Allowance applied (weighted)</td><td className="num">{int(uv?.allowance_runs)}</td></tr>
-            <tr><td>Overage runs × rate</td><td className="num">{uv?.no_verified_usage ? "Not computable" : `${int(uv?.overage_units)} × $${String(uv?.overage_rate_per_run).slice(0, 4)} = ${money(uv?.expected_usage_gross)}`}</td></tr>
+            <tr><td>Overage runs × rate</td><td className="num">{uv?.no_verified_usage ? "Not computable" : `${int(uv?.overage_units)} × $${(() => { const [a, b = ""] = String(uv?.overage_rate_per_run).split("."); return `${a}.${(b + "00").slice(0, 2)}`; })()} = ${money(uv?.expected_usage_gross)}`}</td></tr>
           </tbody></table>
           <div className="muted" style={{ fontSize: 12, marginTop: 8 }}>Source: product_usage.csv. Tie-out to usage_batch_controls.csv for all dates is on the <Link href="/reconciliation/controls">Controls</Link> tab.</div>
           {h.finding_ids && <div style={{ marginTop: 10 }}>Open finding {h.finding_ids.split(", ").map((f: string, i: number) => <span key={f}>{i ? ", " : ""}<Link href={`/findings/${f}`}>{f}</Link></span>)}</div>}
@@ -81,7 +81,7 @@ export default async function CustomerDetail({ searchParams }: { searchParams: P
       <section className="card"><div style={{ padding: "16px 20px", borderBottom: "1px solid #E2E5EA" }}><h3 style={{ margin: 0, fontSize: 16 }}>Invoices and credit notes</h3></div>
         <div style={{ overflowX: "auto" }}><table className="t">
           <thead><tr><th>Invoice</th><th>Type</th><th>Issued</th><th>Service period</th><th className="num">Amount</th><th>Status</th><th>Use in October review</th></tr></thead>
-          <tbody>{invoices.map((i: any) => <tr key={i.invoice}><td>{i.invoice}</td><td>{i.type}</td><td>{when(i.issued)}</td><td>{i.service_period}</td><td className="num">{money(i.amount)}</td><td>{i.status}</td><td>{i.use_in_review}</td></tr>)}</tbody>
+          <tbody>{invoices.map((i: any) => <tr key={i.invoice}><td>{i.invoice}</td><td>{i.type}</td><td>{when(i.issued)}</td><td>{i.service_period}</td><td className="num">{money(i.amount)}</td><td><Chip tone={i.status === "Paid" ? "ok" : "gray"}>{i.status}</Chip></td><td>{i.use_in_review}</td></tr>)}</tbody>
         </table></div>
         <div style={{ padding: "12px 20px" }}>
           {notes.length === 0 ? <span className="muted">No credit notes exist for this customer.</span> : notes.map((n: any) => <div key={n.number}>{n.number} · {n.status} · {money(n.amount)} · {n.reason} · {n.use_in_review}</div>)}
