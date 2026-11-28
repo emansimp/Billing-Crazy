@@ -51,6 +51,7 @@ test("env key switches the provider without code changes", () => {
   assert.equal(getProvider({ ANTHROPIC_API_KEY: "k" }).name, "anthropic");
   assert.equal(providerStatus({ ANTHROPIC_API_KEY: "k" }).configured, true);
   assert.equal(getProvider({ ANTHROPIC_API_KEY: "k", AI_PROVIDER: "template" }).name, "template");
+  assert.equal(providerStatus({ ANTHROPIC_API_KEY: "k", AI_MODEL: "other" }).model, "claude-sonnet-5-5");
 });
 test("anthropic provider sends context and parses text (injected fetch)", async () => {
   let seen: any;

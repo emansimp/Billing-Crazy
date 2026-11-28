@@ -9,6 +9,6 @@ The AI layer never computes numbers. SQL views produce every figure; the AI only
    - every `[ID]` citation must be an ID present in the context;
    - every substantive paragraph (over 40 characters) must carry a citation.
 3. On any mismatch the text is blocked, a warning lists each issue, and the guard-checked template text is shown instead.
-4. Provider is chosen by environment: `ANTHROPIC_API_KEY` set (and `AI_PROVIDER` not `template`) uses the real provider; otherwise the template provider. Optional `AI_MODEL`.
+4. Provider is chosen by environment: `ANTHROPIC_API_KEY` set (and `AI_PROVIDER` not `template`) uses the real provider; otherwise the template provider.
 5. Routes are server-only (`/api/ai/*`); the key is never sent to the browser.
 6. Tests: `npm test` in `app/` (see `app/src/lib/ai/ai.test.ts`); the wrong-number test fails the guardrail on `$3,096.81`.
