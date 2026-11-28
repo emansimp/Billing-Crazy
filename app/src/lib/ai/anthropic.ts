@@ -21,8 +21,8 @@ export class AnthropicProvider implements AiProvider {
       method: "POST",
       headers: { "x-api-key": this.opts.apiKey, "anthropic-version": "2023-06-01", "content-type": "application/json" },
       body: JSON.stringify({
-        model: this.model, max_tokens: 900, system: p.system,
-        messages: [{ role: "user", content: `Context (SQL-produced; the only source of facts, figures and IDs):\n${JSON.stringify(context, null, 2)}\n\n${req.question ? `Question: ${req.question}\n\n` : ""}Write the response now. Cite IDs in [brackets]; use only amounts that appear in the context.` }],
+        model: this.model, max_tokens: 1200, system: p.system,
+        messages: [{ role: "user", content: `Context (SQL-produced; the only source of facts, figures and IDs):\n${JSON.stringify(context, null, 2)}\n\n${req.question ? `Question: ${req.question}\n\n` : ""}Write the response now. Format rules: plain sentences only, no markdown (no headings, bullets, bold or tables). Put each fact on its own line and end EVERY line longer than a few words with the supporting ID in [brackets] taken from the context (for example [F-01]). Use only amounts and run counts that appear verbatim in the context; do not add, subtract or total anything yourself.` }],
       }),
     });
     const raw = await res.text();
