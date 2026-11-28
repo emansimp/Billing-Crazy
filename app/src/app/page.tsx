@@ -24,6 +24,9 @@ export default async function CloseOverview({ searchParams }: { searchParams: Pr
     view("ui_findings_list", `select=*&order=sort_no${filter ? `&class=eq.${filter}` : ""}`), view("ui_billing_corrections", "select=*&order=ref"), one("ui_readiness"),
   ]);
   const total = q1.find((r: any) => r.stream === "Total");
+  // decisions are live; the snapshot rows are overlaid with the latest decision (display only)
+  const decisions: Record<string, string> = Object.fromEntries((await view("ui_finding_decisions", "select=finding_id,decision")).map((d: any) => [d.finding_id, d.decision]));
+  const corrStatus = (c: any) => (c.finding_id && decisions[c.finding_id] === "approved" ? "Approved" : c.status);
   return (
     <>
       <div style={{ padding: "24px 32px 0", display: "flex", flexWrap: "wrap", gap: 16, alignItems: "flex-end", justifyContent: "space-between" }}>
@@ -134,7 +137,7 @@ export default async function CloseOverview({ searchParams }: { searchParams: Pr
                 <tbody>
                   {corrections.map((c: any) => (
                     <tr key={c.ref}><td>{c.ref}</td><td>{c.customer}</td><td>{c.document}</td><td>{c.linked_to}</td><td className="num">{money(c.amount)}</td>
-                      <td><Chip tone={c.status === "Already issued" ? "ok" : "info"}>{c.status}</Chip></td></tr>
+                      <td><Chip tone={["Already issued", "Approved"].includes(corrStatus(c)) ? "ok" : "info"}>{corrStatus(c)}</Chip></td></tr>
                   ))}
                 </tbody>
               </table>

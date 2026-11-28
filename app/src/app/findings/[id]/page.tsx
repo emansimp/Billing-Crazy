@@ -21,6 +21,7 @@ export default async function FindingDetail({ params }: { params: Promise<{ id: 
   const note: any = notes[0]; const act: any = action;
   const live: any = await one("ui_finding_decisions", `select=*&finding_id=eq.${fid}`); // decisions are live; the rest is a snapshot
   const decision: string = live?.decision ?? "draft";
+  const log: any[] = await view("ui_finding_decision_log", `select=*&finding_id=eq.${fid}&order=decided_at.desc&limit=10`);
   return (
     <>
       <div style={{ padding: "20px 32px 0" }}>
@@ -130,6 +131,14 @@ export default async function FindingDetail({ params }: { params: Promise<{ id: 
               <thead><tr><th>Source</th><th>Reference</th></tr></thead>
               <tbody>{sources.map((s: any) => <tr key={`${s.item_no}`}><td>{s.source}</td><td>{s.reference}</td></tr>)}</tbody>
             </table>
+          </section>
+
+          <section className="card" style={{ flex: "1 1 360px", minWidth: 0 }}>
+            <div style={{ padding: "16px 20px", borderBottom: "1px solid #E2E5EA" }}><h2 style={{ margin: 0, fontSize: 16, fontWeight: 600 }}>Decision history</h2></div>
+            {log.length === 0 ? <div className="muted" style={{ padding: 16 }}>No decisions recorded. Status is Draft.</div> : (
+              <table className="t"><thead><tr><th>When</th><th>Decision</th><th>By</th></tr></thead>
+                <tbody>{log.map((l: any, i: number) => <tr key={i}><td>{new Date(l.decided_at).toLocaleString("en-US", { timeZone: "America/Denver", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })} MT</td><td>{decisionLabel[l.decision] ?? l.decision}</td><td>{l.decided_by}</td></tr>)}</tbody></table>
+            )}
           </section>
         </div>
       </div>
