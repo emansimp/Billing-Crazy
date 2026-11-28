@@ -104,7 +104,7 @@ export default async function FindingDetail({ params }: { params: Promise<{ id: 
             </div>
             <div style={{ borderTop: "1px solid #EEF0F3", paddingTop: 14 }}>
               <div className="lbl">Related</div>
-              {act?.related_invoice && <div style={{ marginTop: 6 }}><Link href="/invoices">Invoice {act.related_invoice}</Link></div>}
+              {act?.related_invoice && <div style={{ marginTop: 6 }}><Link href={`/invoices?invoice=${act.related_invoice}`}>Invoice {act.related_invoice}</Link></div>}
               <div><Link href="/reconciliation">{f.customer} customer detail</Link></div>
             </div>
           </section>

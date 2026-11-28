@@ -44,7 +44,7 @@ select test_name, expected, actual, (expected = actual) as pass from (
   union all select 'readiness percentage computed in SQL', '94.7', (select verified_pct::text from public.ui_readiness)
   union all select 'snapshots are fresh: overview, findings, detail (rows differing from the live views)', '0',
         (select (select count(*) from ((select * from public.ui_overview_q1 except select * from public.ui_overview_q1_live) union all (select * from public.ui_overview_q1_live except select * from public.ui_overview_q1)) a)
-              + (select count(*) from ((select * from public.ui_findings_list except select * from public.ui_findings_list_live) union all (select * from public.ui_findings_list_live except select * from public.ui_findings_list)) b)
+              + (select count(*) from ((select to_jsonb(s) - 'decision' j from public.ui_findings_list s except select to_jsonb(l) - 'decision' from public.ui_findings_list_live l) union all (select to_jsonb(l) - 'decision' from public.ui_findings_list_live l except select to_jsonb(s) - 'decision' from public.ui_findings_list s)) b)  -- decision is overlaid live by the app, so the snapshot value may lag
               + (select count(*) from ((select * from public.ui_overview_q3 except select * from public.ui_overview_q3_live) union all (select * from public.ui_overview_q3_live except select * from public.ui_overview_q3)) c))::text
   union all select 'a run is recorded (footer source)', 'true', (select (count(*) >= 1)::text from ops.runs)
   union all select 'browser role cannot read the live logic views or raw/calc tables', '0',

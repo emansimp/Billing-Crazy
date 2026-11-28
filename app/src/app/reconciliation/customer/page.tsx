@@ -81,7 +81,7 @@ export default async function CustomerDetail({ searchParams }: { searchParams: P
       <section className="card"><div style={{ padding: "16px 20px", borderBottom: "1px solid #E2E5EA" }}><h3 style={{ margin: 0, fontSize: 16 }}>Invoices and credit notes</h3></div>
         <div style={{ overflowX: "auto" }}><table className="t">
           <thead><tr><th>Invoice</th><th>Type</th><th>Issued</th><th>Service period</th><th className="num">Amount</th><th>Status</th><th>Use in October review</th></tr></thead>
-          <tbody>{invoices.map((i: any) => <tr key={i.invoice}><td>{i.invoice}</td><td>{i.type}</td><td>{when(i.issued)}</td><td>{i.service_period}</td><td className="num">{money(i.amount)}</td><td><Chip tone={i.status === "Paid" ? "ok" : "gray"}>{i.status}</Chip></td><td>{i.use_in_review}</td></tr>)}</tbody>
+          <tbody>{invoices.map((i: any) => <tr key={i.invoice}><td><Link href={`/invoices?scope=all&invoice=${i.invoice}`}>{i.invoice}</Link></td><td>{i.type}</td><td>{when(i.issued)}</td><td>{i.service_period}</td><td className="num">{money(i.amount)}</td><td><Chip tone={i.status === "Paid" ? "ok" : "gray"}>{i.status}</Chip></td><td>{i.use_in_review}</td></tr>)}</tbody>
         </table></div>
         <div style={{ padding: "12px 20px" }}>
           {notes.length === 0 ? <span className="muted">No credit notes exist for this customer.</span> : notes.map((n: any) => <div key={n.number}>{n.number} · {n.status} · {money(n.amount)} · {n.reason} · {n.use_in_review}</div>)}
