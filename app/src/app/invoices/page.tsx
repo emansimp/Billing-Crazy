@@ -13,7 +13,9 @@ export default async function Register({ searchParams }: { searchParams: Promise
   let list = rows.filter((r: any) => (scope === "all" || r.covers_october) && (t === "all" || r.stream === t) && (!q || `${r.invoice_number} ${r.customer}`.toLowerCase().includes(q.toLowerCase())));
   const pages = Math.max(1, Math.ceil(list.length / PAGE)); const p = Math.min(Math.max(1, Number(page) || 1), pages);
   const shown = list.slice((p - 1) * PAGE, p * PAGE);
-  const sel = rows.find((r: any) => r.invoice_number === invoice) ?? shown.find((r: any) => r.finding_ids) ?? shown[0];
+  // default selection: the listed invoice carrying the lowest-numbered finding (F-01 first), else the first row
+  const rank = (r: any) => Math.min(...String(r.finding_ids ?? "").split(", ").filter(Boolean).map((f) => Number(f.replace("F-", ""))), 999);
+  const sel = rows.find((r: any) => r.invoice_number === invoice) ?? [...shown].sort((a: any, b: any) => rank(a) - rank(b))[0];
   const d: any = sel ? await one("ui_invoice_detail", `select=*&invoice_id=eq.${encodeURIComponent(sel.invoice_id)}`) : undefined;
   const href = (o: Record<string, string>) => `/invoices?${new URLSearchParams({ q, t, scope, page: "1", ...(invoice ? { invoice } : {}), ...o }).toString()}`;
   return (
@@ -78,8 +80,8 @@ export default async function Register({ searchParams }: { searchParams: Promise
               <tr><td className="muted">Discount</td><td>{money(d.discount)}</td></tr>
               <tr><td style={{ fontWeight: 600 }}>Invoice total</td><td style={{ fontWeight: 700 }}>{money(d.invoice_total)}</td></tr>
             </tbody></table>
-            <div>
-              <div className="lbl">Expected vs billed</div>
+            <div style={Number(d.over_billed) > 0 || Number(d.under_billed) > 0 ? { background: "#FFF3EE", border: "1px solid #F0B8A4", borderRadius: 8, padding: 10 } : undefined}>
+              <div className="lbl" style={Number(d.over_billed) > 0 || Number(d.under_billed) > 0 ? { color: "#8F2D0F" } : undefined}>Expected vs billed</div>
               <div style={{ marginTop: 4 }}>{d.expected_label} <b>{money(d.expected_amount)}</b></div>
               {Number(d.over_billed) > 0 && <div style={{ color: "#8F2D0F", fontWeight: 600 }}>Over-billed {money(d.over_billed)}</div>}
               {Number(d.under_billed) > 0 && <div style={{ color: "#6B4A00", fontWeight: 600 }}>Under-billed {money(d.under_billed)}</div>}

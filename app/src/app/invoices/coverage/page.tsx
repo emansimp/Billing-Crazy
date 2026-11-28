@@ -52,7 +52,7 @@ export default async function Coverage({ searchParams }: { searchParams: Promise
                 {r.bars.map((b: any, i: number) => b.bar_kind === "credit_note" ? (
                   <div key={i} title={b.label} style={{ position: "absolute", left: `${b.left_pct}%`, top: 0, fontSize: 11, color: "#8F2D0F", whiteSpace: "nowrap" }}>▼ {b.label}</div>
                 ) : (
-                  <div key={i} title={b.label} style={{ position: "absolute", left: `${b.left_pct}%`, width: `calc(${b.width_pct}% - 2px)`, top: 14, minHeight: 20, background: COL[b.bar_kind].bg, color: COL[b.bar_kind].fg, borderRadius: 4, padding: "2px 6px", fontSize: 11, overflow: "hidden", boxSizing: "border-box", lineHeight: 1.25, border: b.has_finding ? "1.5px solid #1B4DB8" : "none" }}>
+                  <div key={i} title={b.label} style={{ position: "absolute", left: `${b.left_pct}%`, width: `calc(${b.width_pct}% - 2px)`, top: 14, minHeight: 20, background: COL[b.bar_kind].bg, color: COL[b.bar_kind].fg, borderRadius: 4, padding: "2px 6px", fontSize: 11, overflow: "hidden", boxSizing: "border-box", lineHeight: 1.25, border: b.has_finding ? "1.5px solid #C2461A" : "none" }}>
                     {b.label}{b.finding_ids && b.finding_ids.split(", ").map((f: string) => <span key={f}> <Link href={`/findings/${f}`} style={{ color: "#1B4DB8", fontWeight: 700 }}>{f}</Link></span>)}
                   </div>
                 ))}
